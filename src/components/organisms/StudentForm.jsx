@@ -1,11 +1,13 @@
-import React, { useState, useEffect } from "react";
-import Card from "@/components/atoms/Card";
-import Button from "@/components/atoms/Button";
-import FormField from "@/components/molecules/FormField";
+import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
+import ApperIcon from "@/components/ApperIcon";
+import FormField from "@/components/molecules/FormField";
+import Button from "@/components/atoms/Button";
+import Card from "@/components/atoms/Card";
+import Select from "@/components/atoms/Select";
 
-const StudentForm = ({ student, onSubmit, onCancel }) => {
-  const [formData, setFormData] = useState({
+const StudentForm = ({ student, onSubmit, onCancel, onViewParents }) => {
+const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
     dateOfBirth: "",
@@ -16,13 +18,17 @@ const StudentForm = ({ student, onSubmit, onCancel }) => {
     address: "",
     guardianName: "",
     guardianPhone: "",
+    guardianEmail: "",
+    emergencyContactName: "",
+    emergencyContactPhone: "",
+    emergencyContactRelationship: "",
     status: "active"
   });
 
   const [errors, setErrors] = useState({});
 
   useEffect(() => {
-    if (student) {
+if (student) {
       setFormData({
         firstName: student.firstName || "",
         lastName: student.lastName || "",
@@ -34,6 +40,10 @@ const StudentForm = ({ student, onSubmit, onCancel }) => {
         address: student.address || "",
         guardianName: student.guardianName || "",
         guardianPhone: student.guardianPhone || "",
+        guardianEmail: student.guardianEmail || "",
+        emergencyContactName: student.emergencyContactName || "",
+        emergencyContactPhone: student.emergencyContactPhone || "",
+        emergencyContactRelationship: student.emergencyContactRelationship || "",
         status: student.status || "active"
       });
     }
@@ -47,7 +57,7 @@ const StudentForm = ({ student, onSubmit, onCancel }) => {
     }
   };
 
-  const validateForm = () => {
+const validateForm = () => {
     const newErrors = {};
 
     if (!formData.firstName.trim()) newErrors.firstName = "First name is required";
@@ -62,6 +72,12 @@ const StudentForm = ({ student, onSubmit, onCancel }) => {
     if (!formData.phone.trim()) newErrors.phone = "Phone number is required";
     if (!formData.guardianName.trim()) newErrors.guardianName = "Guardian name is required";
     if (!formData.guardianPhone.trim()) newErrors.guardianPhone = "Guardian phone is required";
+    if (formData.guardianEmail && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.guardianEmail)) {
+      newErrors.guardianEmail = "Please enter a valid guardian email address";
+    }
+    if (!formData.emergencyContactName.trim()) newErrors.emergencyContactName = "Emergency contact name is required";
+    if (!formData.emergencyContactPhone.trim()) newErrors.emergencyContactPhone = "Emergency contact phone is required";
+    if (!formData.emergencyContactRelationship.trim()) newErrors.emergencyContactRelationship = "Emergency contact relationship is required";
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -76,14 +92,26 @@ const StudentForm = ({ student, onSubmit, onCancel }) => {
   };
 
   return (
-    <Card className="p-6">
-      <div className="mb-6">
-        <h2 className="text-2xl font-bold font-display text-gray-900">
-          {student ? "Edit Student" : "Add New Student"}
-        </h2>
-        <p className="text-gray-600 mt-1">
-          {student ? "Update student information" : "Enter student details to add them to the system"}
-        </p>
+<Card className="p-6">
+      <div className="mb-6 flex justify-between items-start">
+        <div>
+          <h2 className="text-2xl font-bold font-display text-gray-900">
+            {student ? "Edit Student" : "Add New Student"}
+          </h2>
+          <p className="text-gray-600 mt-1">
+            {student ? "Update student information" : "Enter student details to add them to the system"}
+          </p>
+        </div>
+        {student && onViewParents && (
+          <Button 
+            variant="outline" 
+            onClick={() => onViewParents(student)}
+            className="flex items-center gap-2"
+          >
+            <ApperIcon name="Users2" size={16} />
+            View Parents
+          </Button>
+        )}
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-6">
@@ -181,24 +209,80 @@ const StudentForm = ({ student, onSubmit, onCancel }) => {
           error={errors.address}
         />
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <FormField
-            label="Guardian Name"
-            name="guardianName"
-            value={formData.guardianName}
-            onChange={handleChange}
-            error={errors.guardianName}
-            required
-          />
-          <FormField
-            label="Guardian Phone"
-            name="guardianPhone"
-            type="tel"
-            value={formData.guardianPhone}
-            onChange={handleChange}
-            error={errors.guardianPhone}
-            required
-          />
+        <div className="border-t pt-6">
+          <h3 className="text-lg font-semibold font-display text-gray-900 mb-4">Guardian Information</h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <FormField
+              label="Guardian Name"
+              name="guardianName"
+              value={formData.guardianName}
+              onChange={handleChange}
+              error={errors.guardianName}
+              required
+            />
+            <FormField
+              label="Guardian Phone"
+              name="guardianPhone"
+              type="tel"
+              value={formData.guardianPhone}
+              onChange={handleChange}
+              error={errors.guardianPhone}
+              required
+            />
+          </div>
+          <div className="mt-6">
+            <FormField
+              label="Guardian Email (Optional)"
+              name="guardianEmail"
+              type="email"
+              value={formData.guardianEmail}
+              onChange={handleChange}
+              error={errors.guardianEmail}
+            />
+          </div>
+        </div>
+
+        <div className="border-t pt-6">
+          <h3 className="text-lg font-semibold font-display text-gray-900 mb-4">Emergency Contact</h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <FormField
+              label="Emergency Contact Name"
+              name="emergencyContactName"
+              value={formData.emergencyContactName}
+              onChange={handleChange}
+              error={errors.emergencyContactName}
+              required
+            />
+            <FormField
+              label="Emergency Contact Phone"
+              name="emergencyContactPhone"
+              type="tel"
+              value={formData.emergencyContactPhone}
+              onChange={handleChange}
+              error={errors.emergencyContactPhone}
+              required
+            />
+          </div>
+          <div className="mt-6">
+            <FormField
+              label="Relationship to Student"
+              name="emergencyContactRelationship"
+              type="select"
+              value={formData.emergencyContactRelationship}
+              onChange={handleChange}
+              error={errors.emergencyContactRelationship}
+              required
+            >
+              <option value="">Select Relationship</option>
+              <option value="Parent">Parent</option>
+              <option value="Grandparent">Grandparent</option>
+              <option value="Aunt">Aunt</option>
+              <option value="Uncle">Uncle</option>
+              <option value="Sibling">Sibling</option>
+              <option value="Family Friend">Family Friend</option>
+              <option value="Other">Other</option>
+            </FormField>
+          </div>
         </div>
 
         <FormField

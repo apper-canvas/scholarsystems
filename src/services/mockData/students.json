@@ -11,6 +11,10 @@
     "address": "123 Oak Street, Springfield, IL 62701",
     "guardianName": "Sarah Johnson",
     "guardianPhone": "(555) 123-4568",
+    "guardianEmail": "sarah.johnson@email.com",
+    "emergencyContactName": "Michael Johnson",
+    "emergencyContactPhone": "(555) 123-4569",
+    "emergencyContactRelationship": "Parent",
     "status": "active"
   },
   {

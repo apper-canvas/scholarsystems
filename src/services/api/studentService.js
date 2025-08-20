@@ -19,12 +19,16 @@ export const studentService = {
     return { ...student };
   },
 
-  async create(studentData) {
+async create(studentData) {
     await delay();
     const maxId = Math.max(...students.map(s => s.Id), 0);
     const newStudent = {
       Id: maxId + 1,
-      ...studentData
+      ...studentData,
+      guardianEmail: studentData.guardianEmail || "",
+      emergencyContactName: studentData.emergencyContactName || "",
+      emergencyContactPhone: studentData.emergencyContactPhone || "",
+      emergencyContactRelationship: studentData.emergencyContactRelationship || ""
     };
     students.push(newStudent);
     return { ...newStudent };
@@ -36,7 +40,14 @@ export const studentService = {
     if (index === -1) {
       throw new Error("Student not found");
     }
-    students[index] = { ...students[index], ...studentData };
+    students[index] = { 
+      ...students[index], 
+      ...studentData,
+      guardianEmail: studentData.guardianEmail || students[index].guardianEmail || "",
+      emergencyContactName: studentData.emergencyContactName || students[index].emergencyContactName || "",
+      emergencyContactPhone: studentData.emergencyContactPhone || students[index].emergencyContactPhone || "",
+      emergencyContactRelationship: studentData.emergencyContactRelationship || students[index].emergencyContactRelationship || ""
+    };
     return { ...students[index] };
   },
 

@@ -1,0 +1,67 @@
+[
+  {
+    "Id": 1,
+    "parentId": 1,
+    "teacherId": 1,
+    "studentIds": [1],
+    "type": "meeting",
+    "subject": "Parent-Teacher Conference",
+    "notes": "Discussed Emma's progress in mathematics. She's excelling in algebra but needs more practice with geometry. Recommended additional tutoring sessions. Parents are very supportive and will work with Emma at home on problem areas.",
+    "followUpRequired": true,
+    "followUpDate": "2024-02-15",
+    "createdAt": "1/25/2024 2:30:00 PMZ",
+    "updatedAt": "2024-01-25T14:30:00.000Z"
+  },
+  {
+    "Id": 2,
+    "parentId": 2,
+    "teacherId": 1,
+    "studentIds": [1],
+    "type": "phone",
+    "subject": "Homework Concerns",
+    "notes": "Called to discuss Emma's recent missed homework assignments in science class. Father confirmed family trip last week and will ensure Emma catches up on all assignments by Friday.",
+    "followUpRequired": false,
+    "followUpDate": "",
+    "createdAt": "2024-01-20T16:45:00.000Z",
+    "updatedAt": "2024-01-20T16:45:00.000Z"
+  },
+  {
+    "Id": 3,
+    "parentId": 3,
+    "teacherId": 2,
+    "studentIds": [2],
+    "type": "email",
+    "subject": "Academic Achievement Recognition",
+    "notes": "Sent congratulatory email regarding Liam's exceptional performance on the recent history project. His research on the Civil War was outstanding and showed great analytical thinking. Encouraged continued excellence.",
+    "followUpRequired": false,
+    "followUpDate": "",
+    "createdAt": "2024-01-18T11:20:00.000Z",
+    "updatedAt": "2024-01-18T11:20:00.000Z"
+  },
+  {
+    "Id": 4,
+    "parentId": 4,
+    "teacherId": 3,
+    "studentIds": [3],
+    "type": "meeting",
+    "subject": "Behavioral Discussion",
+    "notes": "Met with father to discuss Sophia's recent disruptive behavior in class. Identified that she's bored with current material and needs more challenging assignments. Agreed on advanced reading list and additional projects to keep her engaged.",
+    "followUpRequired": true,
+    "followUpDate": "2024-02-10",
+    "createdAt": "2024-01-22T13:15:00.000Z",
+    "updatedAt": "2024-01-22T13:15:00.000Z"
+  },
+  {
+    "Id": 5,
+    "parentId": 1,
+    "teacherId": 4,
+    "studentIds": [1],
+    "type": "other",
+    "subject": "After-School Program Inquiry",
+    "notes": "Parent inquired about available after-school programs for Emma. Provided information about the STEM club, drama club, and study hall options. Emma expressed interest in joining the drama club for the spring production.",
+    "followUpRequired": false,
+    "followUpDate": "",
+    "createdAt": "2024-01-15T15:30:00.000Z",
+    "updatedAt": "2024-01-15T15:30:00.000Z"
+  }
+]

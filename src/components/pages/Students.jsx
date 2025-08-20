@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import Button from "@/components/atoms/Button";
 import StudentTable from "@/components/organisms/StudentTable";
 import StudentForm from "@/components/organisms/StudentForm";
@@ -74,12 +75,17 @@ const Students = ({ searchValue }) => {
     }
   };
 
+const navigate = useNavigate();
+
   const handleViewStudent = (student) => {
     // For now, just show the edit form in view mode
     setEditingStudent(student);
     setShowForm(true);
   };
 
+  const handleViewParents = (student) => {
+    navigate(`/parents?student=${student.Id}`);
+  };
   const handleSubmitStudent = async (studentData) => {
     try {
       if (editingStudent) {
@@ -104,12 +110,13 @@ const Students = ({ searchValue }) => {
   if (loading) return <Loading />;
   if (error) return <Error message={error} onRetry={loadStudents} />;
 
-  if (showForm) {
+if (showForm) {
     return (
       <StudentForm
         student={editingStudent}
         onSubmit={handleSubmitStudent}
         onCancel={handleCancelForm}
+        onViewParents={handleViewParents}
       />
     );
   }
